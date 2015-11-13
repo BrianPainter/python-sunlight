@@ -2,6 +2,7 @@
 # of the LICENSE file.
 
 import sunlight.service
+from sunlight.service import datetime_parser
 from sunlight.errors import BadRequestException
 import json
 
@@ -196,4 +197,4 @@ class Openstates(sunlight.service.Service):
         )
 
     def _decode_response(self, response):
-        return json.loads(response)
+        return json.loads(response, object_hook=datetime_parser)

@@ -3,7 +3,7 @@
 
 import sunlight.service
 from sunlight.errors import BadRequestException
-from sunlight.service import EntityDict
+from sunlight.service import EntityDict, datetime_parser
 import json
 
 module_name = "opencivic"
@@ -77,4 +77,4 @@ class OpenCivic(sunlight.service.Service):
         )
 
     def _decode_response(self, response):
-        return json.loads(response)
+        return json.loads(response, object_hook=datetime_parser)

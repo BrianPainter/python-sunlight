@@ -3,6 +3,7 @@
 
 
 from sunlight.errors import InvalidRequestException, BadRequestException
+from sunlight.service import datetime_parser
 
 import sunlight.service
 import json
@@ -104,7 +105,7 @@ class CapitolWords(sunlight.service.Service):
         return ret
 
     def _decode_response(self, response):
-        ret = json.loads(response)
+        ret = json.loads(response, object_hook=datetime_parser)
         if "error" in ret:
             ex = InvalidRequestException(ret['error'])
             ex.response = ret
