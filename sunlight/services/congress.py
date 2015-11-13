@@ -9,7 +9,7 @@ Sunlight Congress API Implementation inside ``python-sunlight``.
 """
 
 import sunlight.service
-from sunlight.service import EntityDict, EntityList
+from sunlight.service import EntityDict, EntityList, datetime_parser
 from sunlight.pagination import pageable
 from sunlight.errors import SunlightException
 import json
@@ -342,7 +342,7 @@ class Congress(sunlight.service.Service):
 
     def _decode_response(self, response):
         try:
-            data = json.loads(response)
+            data = json.loads(response, object_hook=datetime_parser)
         except Exception:
             raise SunlightException('Error parsing response! Something must be wrong with our Congress... API')
         results = data.pop('results', None)

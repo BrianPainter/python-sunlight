@@ -9,6 +9,7 @@ Base service class. All API classes (such as say -
 :class:`sunlight.services.openstates.OpenStates`) inherit from this.
 """
 import sys
+import datetime
 
 import sunlight.config
 import sunlight.errors
@@ -111,3 +112,13 @@ class EntityDict(dict):
     def __init__(self, data={}, meta=None):
         dict.__init__(self, data)
         self._meta = meta
+
+
+def datetime_parser(dct):
+    for k, v in dct.items():
+        for dte_fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%SZ"):
+            try:
+                dct[k] = datetime.datetime.strptime(v, dte_fmt)
+            except Exception:
+                pass
+    return dct
